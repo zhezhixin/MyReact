@@ -3,10 +3,10 @@ import React from "react"
 function Square(props){
     return (
         <button 
-            className="square" 
+            className={["square",props.value[1]?'squarestate':null].join(' ')}
             onClick={props.onMyClick}
         >
-            {props.value}
+            {props.value[0]}
         </button>
     );
 }

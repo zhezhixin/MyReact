@@ -26,6 +26,7 @@ class Board extends Component {
         return (
             <Square 
                 value={this.props.squares[i]}
+                key = {i}
                 onMyClick={()=>this.props.onGameClick(i)}
             />
         );

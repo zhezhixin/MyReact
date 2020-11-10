@@ -8,7 +8,7 @@ class Game extends Component {
         super(props);
         this.state = {
             history:[{
-                squares: Array(9).fill(null),
+                squares: Array(9).fill([null,false]),
                 nowstep: Array(2).fill(null),
             }],
             stepNumber:0,
@@ -22,10 +22,19 @@ class Game extends Component {
         const current = history[history.length-1];
         const squares = current.squares.slice(); //跟踪不可变数据的变化相对来说就容易多了。如果发现对象变成了一个新对象，那么我们就可以说对象发生改变了。
         const nowstep = calhanglie(i)
-        if (calculateWinner(squares) || squares[i]){
+        console.log('squares[i][0]',squares[i][0])
+        if (squares[i][0]){
             return;
         }
-        squares[i] = this.state.xIsNext?'X':'O';
+        squares[i] = [this.state.xIsNext?'X':'O',false];
+        let winnerState = calculateWinner(squares)
+        if (winnerState){
+            for(let k = 0; k < squares.length; k++){
+                if(winnerState[1].indexOf(k) > -1){
+                    squares[k] = [squares[k][0],true]
+                }
+            }
+        }
         this.setState({
             history:history.concat([{ //concat() 方法可能与你比较熟悉的 push() 方法不太一样，它并不会改变原数组，所以我们推荐使用 concat()。
                 squares:squares,
@@ -49,6 +58,7 @@ class Game extends Component {
             ordercontrol: !this.state.ordercontrol
         })    
     }
+
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber]; //修改 Game 组件的 render 方法，将代码从始终根据最后一次移动渲染修改为根据当前 stepNumber 渲染
@@ -66,15 +76,20 @@ class Game extends Component {
         })
 
         let status;
-        if (winner){
-            status = "winner: " + winner;
+        if (!winner){
+            if(this.state.stepNumber === 9){
+                status = 'deuce'
+            } else {
+                status = 'Next player: ' + (this.state.xIsNext?'X':'O');
+            }
         } else {
-            status = 'Next player: ' + (this.state.xIsNext?'X':'O');
+            status = "winner: " + winner[0];
         }
 
         if (!this.state.ordercontrol){
             moves.reverse()
         }
+        let order = this.state.ordercontrol?'升序 ▲':'降序 ▼'
         return (
         <div className="game">
             <div className="game-board">
@@ -84,7 +99,7 @@ class Game extends Component {
             </div>
             <div className="game-info">
             <div>{status}</div>
-            <div><button onClick={()=>this.reverseList()}>{this.state.ordercontrol?'升序':'降序'}</button></div>
+            <div><button onClick={()=>this.reverseList()}>{order}</button></div>
             <ol>{moves}</ol>
             </div>
         </div>
@@ -103,10 +118,11 @@ function calculateWinner(squares){
         [0, 4, 8],
         [2, 4, 6],
     ];
+    console.log(squares)
     for (let i = 0; i < lines.length; i++){
         const [a,b,c] = lines[i]
-        if(squares[a] && squares[a] === squares[b] && squares[a] === squares[c]){
-            return squares[a]
+        if(squares[a][0] && squares[a][0] === squares[b][0] && squares[a][0] === squares[c][0]){
+            return [squares[a][0],[a,b,c]]
         }
     }
     return null
