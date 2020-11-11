@@ -51,10 +51,18 @@ body {
     margin-left: 20px;
   }
   
+  .normal {
+    color: rgb(129, 126, 126);
+  }
   .active{
+    color:black;
+    font-weight: bold;
+  }
+  .winner{
+    color:rgb(168, 21, 21);
     font-weight: bold;
   }
 
-  .squarestate{
+  .light{
     color:rgb(36, 124, 65);
   }

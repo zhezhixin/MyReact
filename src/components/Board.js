@@ -23,10 +23,17 @@ class Board extends Component {
     // }
 
     renderSquare(i) {
+        let light;
+        if (this.props.winnerStep.indexOf(i) > -1){
+            light = true;
+        }else{
+            light = false;
+        }
         return (
             <Square 
                 value={this.props.squares[i]}
                 key = {i}
+                light = {light}
                 onMyClick={()=>this.props.onGameClick(i)}
             />
         );
@@ -47,8 +54,10 @@ class Board extends Component {
             for (let j = 0; j < n; j++){
                 row.push(this.renderSquare( i*n + j ))
             }
-            all.push(<div className="board-row">{row}</div>)
+            all.push(<div className="board-row" key={i}>{row}</div>)
         }
+
+        
         return (
             <div>
                 <div>{all}</div>
