@@ -3,6 +3,7 @@ import './App.css';
 import React, { Component }from "react"
 import HelloWorld from './components/HelloWorld'
 import Game from './components/Game'
+import Todo from './components/Todo'
 
 class App extends Component {
   render(){
@@ -12,6 +13,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <HelloWorld />
           <Game />
+          <Todo />
           <p>
             Edit <code>src/App.js</code> and save to reload.
           </p>

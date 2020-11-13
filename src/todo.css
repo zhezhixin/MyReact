@@ -1,0 +1,8 @@
+.complete{
+    text-decoration: line-through;
+    text-decoration-color: rgb(134, 20, 20);
+    color:rgb(168, 168, 163);
+}
+.destroy{
+    color:rgb(150, 44, 44);
+}
