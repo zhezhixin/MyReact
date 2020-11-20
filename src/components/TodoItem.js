@@ -1,22 +1,25 @@
 import React, { Component } from "react"
-import '../todo.css'
+
 class TodoItem extends Component {
-    handledelete (id) {
-        this.props.remove(id);
-    }
     handlechange (id) {
         this.props.onComplete(id)
     }
+    handledelete (id) {
+        this.props.remove(id);
+    }
     render() {
+        const list = this.props.list;
+        const listItems = list.map((item,index) =>{
+            return(
+            <li key={item.id}>
+                <input type="checkbox" checked={ item.isCompleted } onChange = { this.handlechange.bind(this, item.id) }></input>
+                <span className={item.isCompleted?'complete':null}>{ index + 1 }. { item.text }</span>
+                <button className="destroy" onClick = {this.handledelete.bind(this, item.id)}>X</button>
+            </li>)
+        })
         return (
             <ul>
-                {this.props.list.map((item,index)=> (
-                    <li key={item.id}>
-                        <input type="checkbox" checked={item.isCompleted} onChange = {()=>this.handlechange(item.id)}></input>
-                        <span className={item.isCompleted?'complete':null}>{index+1}. {item.text}</span>
-                        <button className="destroy" onClick = {()=>this.handledelete(item.id)}>X</button>
-                    </li>
-                ))}
+                {listItems}
             </ul>
         );
     }

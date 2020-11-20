@@ -4,6 +4,8 @@ import React, { Component }from "react"
 import HelloWorld from './components/HelloWorld'
 import Game from './components/Game'
 import Todo from './components/Todo'
+import Clock from './components/Clock'
+
 
 class App extends Component {
   render(){
@@ -12,6 +14,7 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <HelloWorld />
+          <Clock />
           <Game />
           <Todo />
           <p>
